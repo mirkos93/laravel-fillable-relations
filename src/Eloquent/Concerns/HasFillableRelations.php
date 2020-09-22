@@ -146,7 +146,7 @@ trait HasFillableRelations
         }
 
         dump($attributes);
-        dd($relation);
+        dump($relation->toArray());
         $relation->delete();
 
         foreach ($attributes as $related) {
