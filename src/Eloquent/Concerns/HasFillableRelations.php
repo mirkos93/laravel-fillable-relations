@@ -145,7 +145,8 @@ trait HasFillableRelations
             $relation = $this->{Str::camel($relationName)}();
         }
 
-        foreach ($attributes as $related) {
+        /*
+         *  foreach ($attributes as $related) {
             if (!$related instanceof Model) {
                 if (method_exists($relation, 'getHasCompareKey')) { // Laravel 5.3
                     $foreign_key = explode('.', $relation->getHasCompareKey());
@@ -162,6 +163,25 @@ trait HasFillableRelations
                     $relation->delete();
                     $related = $relation->getRelated()->newInstance($related);
                 }
+                $related->exists = $related->wasRecentlyCreated;
+            }
+
+            $relation->save($related);
+        }
+         */
+
+        $relation->delete();
+
+        foreach ($attributes as $related) {
+            if (!$related instanceof Model) {
+                if (method_exists($relation, 'getHasCompareKey')) { // Laravel 5.3
+                    $foreign_key = explode('.', $relation->getHasCompareKey());
+                    $related[$foreign_key[1]] = $relation->getParent()->getKey();
+                } else {  // Laravel 5.5+
+                    $related[$relation->getForeignKeyName()] = $relation->getParentKey();
+                }
+
+                $related = $relation->getRelated()->newInstance($related);
                 $related->exists = $related->wasRecentlyCreated;
             }
 
