@@ -158,6 +158,7 @@ trait HasFillableRelations
 
                 if ( isset($related['id']) && $related['id'] ){
                     $instance = $relation->getRelated()->find($related['id']);
+                    dump($instance->toArray());
                     if ( $instance ) $related = $instance;
                     else $related = $relation->getRelated()->newInstance($related);
                 } else {
