@@ -145,8 +145,6 @@ trait HasFillableRelations
             $relation = $this->{Str::camel($relationName)}();
         }
 
-        $relation->delete();
-
         foreach ($attributes as $related) {
             if (!$related instanceof Model) {
                 if (method_exists($relation, 'getHasCompareKey')) { // Laravel 5.3
@@ -162,6 +160,7 @@ trait HasFillableRelations
                     if ( $instance ) $related = $instance;
                     else $related = $relation->getRelated()->newInstance($related);
                 } else {
+                    $relation->delete();
                     $related = $relation->getRelated()->newInstance($related);
                 }
                 $related->exists = $related->wasRecentlyCreated;
