@@ -145,9 +145,9 @@ trait HasFillableRelations
             $relation = $this->{Str::camel($relationName)}();
         }
 
-        dump($attributes);
-        //dump($relation);
-        $relation->delete();
+        if ( ! isset($attributes->id) || ! $attributes->id ) {
+            $relation->delete();
+        }
 
         foreach ($attributes as $related) {
             if (!$related instanceof Model) {
