@@ -155,8 +155,8 @@ trait HasFillableRelations
                 } else {  // Laravel 5.5+
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
-                dump(!! (isset($related->id) && $related->id));
-                $related = $relation->getRelated()->newInstance($related, !! (isset($related->id) && $related->id));
+                dump($related);
+                $related = $relation->getRelated()->newInstance($related, isset($related->id));
                 $related->exists = $related->wasRecentlyCreated;
             }
 
