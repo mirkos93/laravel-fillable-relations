@@ -156,7 +156,7 @@ trait HasFillableRelations
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
 
-                if ( ! isset($related->id) ) {
+                if ( ! isset($related['id']) ) {
                     $related = $relation->getRelated()->newInstance($related);
                 } else {
                     dump('here');
