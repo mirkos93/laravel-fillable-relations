@@ -160,7 +160,7 @@ trait HasFillableRelations
                     $related = $relation->getRelated()->newInstance($related);
                 } else {
                     dump('here');
-                    $related = $relation->getRelated()->newInstance()->where('id', $related->id)->first();
+                    $related = $relation->getRelated()->newInstance()->where('id', $related['id'])->first();
                     dump($related);
                     $related->fill($related);
                 }
