@@ -145,9 +145,7 @@ trait HasFillableRelations
             $relation = $this->{Str::camel($relationName)}();
         }
 
-        $relation->delete();
-
-
+        //$relation->delete();
 
         foreach ($attributes as $related) {
             if (!$related instanceof Model) {
@@ -157,8 +155,8 @@ trait HasFillableRelations
                 } else {  // Laravel 5.5+
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
-                dump($related);
-                $related = $relation->getRelated()->newInstance($related);
+                dump($attributes);
+                $related = $relation->getRelated()->newInstance($related, !! (isset($related->id) && $related->id));
                 $related->exists = $related->wasRecentlyCreated;
             }
 
@@ -219,7 +217,7 @@ trait HasFillableRelations
             $relation = $this->{Str::camel($relationName)}();
         }
 
-        //$relation->delete();
+        $relation->delete();
 
         foreach ($attributes as $related) {
             if (!$related instanceof Model) {
@@ -229,7 +227,7 @@ trait HasFillableRelations
                 } else {  // Laravel 5.5+
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
-                $related = $relation->getRelated()->newInstance($related, !! (isset($related->id) && $related->id));
+                $related = $relation->getRelated()->newInstance($related);
                 $related->exists = $related->wasRecentlyCreated;
             }
 
