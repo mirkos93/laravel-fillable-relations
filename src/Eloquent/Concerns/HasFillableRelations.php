@@ -147,7 +147,7 @@ trait HasFillableRelations
 
         $relation->delete();
 
-        dump($attributes);
+
 
         foreach ($attributes as $related) {
             if (!$related instanceof Model) {
@@ -157,6 +157,7 @@ trait HasFillableRelations
                 } else {  // Laravel 5.5+
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
+                dump($related);
                 $related = $relation->getRelated()->newInstance($related);
                 $related->exists = $related->wasRecentlyCreated;
             }
