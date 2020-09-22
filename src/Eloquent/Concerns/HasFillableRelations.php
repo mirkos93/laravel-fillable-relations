@@ -159,7 +159,7 @@ trait HasFillableRelations
                 if ( ! isset($related->id) ) {
                     $related = $relation->getRelated()->newInstance($related);
                 } else {
-                    $related = $relation->getRelated()->newInstance()->where('id', $related->id)->fill($related);
+                    $related = $relation->getRelated()->newInstance()->where('id', $related->id)->first()->fill($related);
                 }
 
                 $related->exists = $related->wasRecentlyCreated;
