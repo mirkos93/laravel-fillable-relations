@@ -145,7 +145,7 @@ trait HasFillableRelations
             $relation = $this->{Str::camel($relationName)}();
         }
 
-        //$relation->delete();
+        $relation->delete();
 
         foreach ($attributes as $related) {
             if (!$related instanceof Model) {
@@ -156,14 +156,7 @@ trait HasFillableRelations
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
 
-                if ( ! isset($related['id']) ) {
-                    $related = $relation->getRelated()->newInstance($related);
-                } else {
-                    dump('here');
-                    $related = $relation->getRelated()->newInstance()->where('id', $related['id'])->first()->fill($related);
-                    dump($related);
-                }
-
+                $related = $relation->getRelated()->newInstance($related);
                 $related->exists = $related->wasRecentlyCreated;
             }
 
