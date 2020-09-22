@@ -155,8 +155,13 @@ trait HasFillableRelations
                 } else {  // Laravel 5.5+
                     $related[$relation->getForeignKeyName()] = $relation->getParentKey();
                 }
-                dump($related);
-                $related = $relation->getRelated()->newInstance($related, isset($related->id));
+
+                if ( ! isset($related->id) ) {
+                    $related = $relation->getRelated()->newInstance($related);
+                } else {
+                    $related = $relation->getRelated()->newInstance()->where('id', $related->id)->fill($related);
+                }
+
                 $related->exists = $related->wasRecentlyCreated;
             }
 
